@@ -1,0 +1,50 @@
+import React, { useEffect, useState } from "react";
+import PositionService from "../services/positionService";
+import { Icon, Menu, Table } from "semantic-ui-react";
+
+export default function PositionsList() {
+  const [positions, setPositions] = useState([]);
+
+  useEffect(() => {
+    let positionService = new PositionService();
+    positionService
+      .getPositions()
+      .then((result) => setPositions(result.data.data));
+  }, []);
+  return (
+    <div>
+      <Table called>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Position</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {positions.map((position) => (
+            <Table.Row key={position.id}>
+              <Table.Cell>{position.jobTitle}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan="3">
+              <Menu floated="right" pagination>
+                <Menu.Item as="a" icon>
+                  <Icon name="chevron left" />
+                </Menu.Item>
+                <Menu.Item as="a">1</Menu.Item>
+                <Menu.Item as="a">2</Menu.Item>
+                <Menu.Item as="a">3</Menu.Item>
+                <Menu.Item as="a">4</Menu.Item>
+                <Menu.Item as="a" icon>
+                  <Icon name="chevron right" />
+                </Menu.Item>
+              </Menu>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
+      </Table>
+    </div>
+  );
+}
